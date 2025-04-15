@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -14,6 +14,8 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 
 function Sidebar() {
+  const [searchTerm, setSearchTerm] = useState(""); // Trạng thái tìm kiếm
+
   const contacts = [
     {
       name: "Diogo Forlan",
@@ -42,70 +44,84 @@ function Sidebar() {
     },
   ];
 
+  // Lọc danh sách dựa trên searchTerm
+  const filteredContacts = contacts.filter(
+    (contact) =>
+      contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      contact.username.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
-    <>
-      <Box
-        sx={{
-          position: "fixed",
-          width: "360px"
-        }}
-      >
-        {/* Thanh tìm kiếm */}
-        <TextField
-          placeholder="Tìm kiếm"
-          variant="outlined"
-          fullWidth
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon sx={{color: "#808080"}}/>
-              </InputAdornment>
-            ),
-            style: {
-              color: "#f5f5f5",
-              backgroundColor: "#16181c",
-              borderRadius: "25px",
-            },
-          }}
-          sx={{
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": { border: "none" },
-            },
-          }}
-        />
-
-        {/* Tạo khoảng cách 30px */}
-        <Box sx={{ height: "20px" }} />
-
-        <Box
-          sx={{
+    <Box
+      sx={{
+        position: "fixed",
+        width: "360px",
+      }}
+    >
+      {/* Thanh tìm kiếm */}
+      <TextField
+        placeholder="Tìm kiếm"
+        variant="outlined"
+        fullWidth
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)} // Cập nhật từ khóa
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon sx={{ color: "#808080" }} />
+            </InputAdornment>
+          ),
+          style: {
+            color: "#f5f5f5",
             backgroundColor: "#16181c",
             borderRadius: "25px",
-            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-            padding: "16px",
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            marginBottom: "150px",
-          }}
-        >
-          {/* Danh sách người liên hệ gần đây */}
-          <Box sx={{}}>
-            <Typography
-              variant="h6"
-              sx={{
-                fontWeight: "bold",
-                marginBottom: "8px",
-                color: "#f5f5f5",
-              }}
-            >
-              Người liên hệ gần đây
-            </Typography>
-            <List>
-              {contacts.map((contact, index) => (
+            border: "1px solid #f5f5f5", // Viền trắng (tùy chỉnh trước)
+          },
+        }}
+        sx={{
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": { border: "none" },
+          },
+        }}
+      />
+
+      {/* Tạo khoảng cách 20px */}
+      <Box sx={{ height: "20px" }} />
+
+      <Box
+        sx={{
+          backgroundColor: "#1e2124", // Nền xám đậm (tùy chỉnh trước)
+          borderRadius: "25px",
+          boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+          padding: "16px",
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          marginBottom: "150px",
+        }}
+      >
+        {/* Danh sách kết quả tìm kiếm hoặc người liên hệ gần đây */}
+        <Box>
+          <Typography
+            variant="h6"
+            sx={{
+              fontWeight: "bold",
+              marginBottom: "8px",
+              color: "#f5f5f5",
+            }}
+          >
+            {searchTerm ? "Kết quả tìm kiếm" : "Người liên hệ gần đây"}
+          </Typography>
+          <List>
+            {filteredContacts.length > 0 ? (
+              filteredContacts.map((contact, index) => (
                 <ListItem key={index} sx={{ padding: "8px 0" }}>
                   <ListItemAvatar>
-                    <Avatar alt={contact.name} src={contact.avatar} />
+                    <Avatar
+                      alt={contact.name}
+                      src={contact.avatar}
+                      sx={{ width: 48, height: 48 }} // Avatar lớn (tùy chỉnh trước)
+                    />
                   </ListItemAvatar>
                   <ListItemText
                     sx={{
@@ -117,8 +133,14 @@ function Sidebar() {
                     secondary={contact.username}
                   />
                 </ListItem>
-              ))}
-            </List>
+              ))
+            ) : (
+              <Typography sx={{ color: "#f5f5f5", padding: "8px 0" }}>
+                Không tìm thấy người dùng
+              </Typography>
+            )}
+          </List>
+          {filteredContacts.length > 0 && (
             <Box sx={{ marginTop: "8px" }}>
               <Link
                 href="#"
@@ -131,10 +153,10 @@ function Sidebar() {
                 <Typography>Xem thêm</Typography>
               </Link>
             </Box>
-          </Box>
+          )}
         </Box>
       </Box>
-    </>
+    </Box>
   );
 }
 

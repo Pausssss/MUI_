@@ -10,9 +10,7 @@ import {
   ListItemText,
   ListItemSecondaryAction,
 } from "@mui/material";
-import "../styles/Suggestions.css";
 
-// Mock data for suggestions
 const suggestedUsers = [
   {
     id: 1,
@@ -32,7 +30,6 @@ const suggestedUsers = [
     username: "@mikejohnson",
     avatar: "https://mui.com/static/images/avatar/3.jpg",
   },
-  // Add more users as needed
 ];
 
 const Suggestions = () => {
@@ -53,6 +50,8 @@ const Suggestions = () => {
         backgroundColor: "#16181c",
         borderRadius: "25px",
         position: "fixed",
+        transition: "transform 0.2s", // Thêm hiệu ứng hover
+        "&:hover": { transform: "scale(1.02)" }, // Phóng to nhẹ
       }}
     >
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -97,7 +96,7 @@ const Suggestions = () => {
                   variant="body2"
                   sx={{
                     fontWeight: "bold",
-                    fontSize: "0.9rem",
+                    fontSize: "1rem", // Tăng kích thước chữ
                     color: "#f5f5f5",
                   }}
                 >
@@ -123,7 +122,7 @@ const Suggestions = () => {
                   textTransform: "none",
                   fontWeight: "bold",
                   fontSize: "0.8rem",
-                  backgroundColor: "#f5f5f5",
+                  backgroundColor: following[user.id] ? "#f5f5f5" : "#6ec207", // Xanh lá khi chưa theo dõi
                   borderRadius: "25px",
                 }}
                 onClick={() => handleFollow(user.id)}

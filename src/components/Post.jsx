@@ -29,7 +29,15 @@ export default function Post({ caption, img, like, comment, view, share }) {
   };
 
   return (
-    <Card sx={{ maxWidth: "100%", bgcolor: "#16181C", borderRadius: "25px" }}>
+    <Card
+      sx={{
+        maxWidth: "100%",
+        bgcolor: "#16181C",
+        borderRadius: "25px",
+        transition: "transform 0.2s", // Thêm hiệu ứng hover
+        "&:hover": { transform: "scale(1.02)" }, // Phóng to nhẹ
+      }}
+    >
       <CardHeader
         avatar={
           <Avatar
@@ -60,7 +68,7 @@ export default function Post({ caption, img, like, comment, view, share }) {
       <Box sx={{ paddingLeft: "56px" }}>
         <CardContent sx={{ paddingTop: 0 }}>
           <Typography
-            variant="body2"
+            variant="body1" // Tăng kích thước chữ
             sx={{ maxWidth: "480px", color: "#f5f5f5" }}
           >
             {caption}
@@ -79,9 +87,7 @@ export default function Post({ caption, img, like, comment, view, share }) {
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <IconButton aria-label="add to favorites" onClick={handleLike}>
               {isLiked ? (
-                <FavoriteIcon
-                  sx={{ fontSize: "20px", color: "#FF0000" }}
-                />
+                <FavoriteIcon sx={{ fontSize: "20px", color: "#FF0000" }} />
               ) : (
                 <FavoriteBorderOutlinedIcon
                   sx={{ fontSize: "20px", color: "#808080" }}
@@ -95,7 +101,7 @@ export default function Post({ caption, img, like, comment, view, share }) {
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <IconButton aria-label="comment">
               <ChatBubbleOutlineOutlinedIcon
-                sx={{ fontSize: "20px", color: "#808080" }}
+                sx={{ fontSize: "20px", color: "#6ec207" }} // Đổi màu xanh lá
               />
             </IconButton>
             <Typography variant="body2" color="#808080">
